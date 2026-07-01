@@ -1,0 +1,9 @@
+backend
+frontend/node_modules
+.git
+.idea
+target
+*.log
+.env
+.env.local
+test.m3u

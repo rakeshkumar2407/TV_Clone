@@ -130,3 +130,66 @@ npm run build
 ```
 
 The built files will be in the `frontend/dist` directory.
+
+## Deployment
+
+### Frontend Deployment on Vercel
+
+1. Install Vercel CLI:
+```bash
+npm install -g vercel
+```
+
+2. Deploy to Vercel:
+```bash
+vercel
+```
+
+3. Set environment variable for backend API URL:
+   - Go to Vercel dashboard
+   - Navigate to your project settings
+   - Add environment variable: `VITE_API_URL` with your backend URL (e.g., `https://your-backend-url.com`)
+
+4. Redeploy after setting the environment variable
+
+### Backend Deployment Options
+
+Since Vercel is optimized for static sites and serverless functions, the Java Spring Boot backend needs to be deployed elsewhere:
+
+**Option 1: Render.com**
+- Create a free account on Render.com
+- Connect your GitHub repository
+- Create a new Web Service
+- Select "Docker" or use the build command: `mvn clean package`
+- Set start command: `java -jar target/tv-player-backend-1.0.0.jar`
+- Deploy
+
+**Option 2: Railway.app**
+- Similar process to Render
+- Supports Java deployments
+
+**Option 3: Heroku**
+- Create a `Procfile` in the backend directory:
+```
+web: java -jar target/tv-player-backend-1.0.0.jar
+```
+- Deploy using Heroku CLI or GitHub integration
+
+**Option 4: AWS/Azure/GCP**
+- Deploy as a container or EC2 instance
+- Use your preferred cloud provider
+
+After deploying the backend, update the `VITE_API_URL` environment variable in your Vercel project to point to your deployed backend URL.
+
+## Environment Variables
+
+### Frontend (.env)
+```
+VITE_API_URL=http://localhost:8080  # For local development
+VITE_API_URL=https://your-backend-url.com  # For production
+```
+
+### Backend (application.properties)
+```
+server.port=8080
+```

@@ -19,7 +19,8 @@ function App() {
   const fetchCountries = async () => {
     setLoadingCountries(true);
     try {
-      const response = await fetch('/api/channels/countries');
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/channels/countries`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
