@@ -1,0 +1,4 @@
+com\tvplayer\controller\ChannelController.class
+com\tvplayer\model\Channel.class
+com\tvplayer\service\M3UParserService.class
+com\tvplayer\TvPlayerApplication.class

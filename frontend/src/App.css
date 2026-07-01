@@ -1,0 +1,127 @@
+:root{
+  --bg-0: #0b0f14;
+  --bg-1: #0f1720;
+  --card: #121417;
+  --muted: #9aa4b2;
+  --accent: #6f9cff;
+  --accent-2: #7e67ff;
+  --glass: rgba(255,255,255,0.03);
+  --radius: 10px;
+  --shadow: 0 6px 18px rgba(2,6,23,0.6);
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: linear-gradient(180deg, var(--bg-0), var(--bg-1));
+  color: #e6eef8;
+}
+
+/* Prevent the browser page from scrolling; keep scrolling confined to the sidebar */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.app-header {
+  background: linear-gradient(90deg, rgba(127,152,255,0.12), rgba(126,103,255,0.08));
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.app-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-content {
+  display: flex;
+  flex: 1;
+  /* allow children to size correctly and prevent parent overflow */
+  min-height: 0;
+}
+
+.sidebar {
+  width: 420px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  border-right: 1px solid rgba(255,255,255,0.03);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 8px;
+  overflow: hidden;
+}
+
+/* Mobile toggle button */
+.mobile-toggle {
+  display: none;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-right: 12px;
+}
+
+.main-content {
+  flex: 1;
+  background: #0f0f0f;
+  overflow: hidden;
+  min-height: 400px;
+  /* keep the right area fixed within viewport */
+  position: relative;
+}
+
+.app .sidebar .filter-section,
+.app .sidebar .search-section,
+.app .sidebar .channels-count {
+  background: transparent;
+  padding: 0;
+}
+
+@media (max-width: 1024px) {
+  .app-content {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 50%;
+  }
+
+  .main-content {
+    height: 50%;
+  }
+}
+
+@media (max-width: 800px) {
+  .mobile-toggle { display: inline-flex; }
+  .app-header { display: flex; align-items: center; gap: 12px; }
+  .sidebar { 
+    position: fixed; 
+    left: 0; top: 64px; bottom: 0; 
+    width: 320px; 
+    transform: translateX(-110%); 
+    transition: transform 220ms ease;
+    z-index: 60;
+    box-shadow: 0 20px 40px rgba(1,4,10,0.6);
+    background: linear-gradient(180deg, rgba(12,14,18,0.98), rgba(10,12,16,0.96));
+  }
+  .sidebar.open { transform: translateX(0%); }
+  .main-content { margin-left: 0; }
+  .channels-container { padding-bottom: 80px; }
+}
+
+@media (max-width: 480px) {
+  .sidebar { width: 100%; }
+  .video-element { max-height: calc(100vh - 220px); }
+}
