@@ -4,7 +4,7 @@ A web-based TV channels player that fetches channels from the IPTV M3U playlist 
 
 ## Tech Stack
 
-- **Backend**: Java Spring Boot 3.2.0
+- **Backend**: Node.js/Express (for Vercel deployment) or Java Spring Boot 3.2.0 (for local development)
 - **Frontend**: React 18 with Vite
 - **Data Source**: https://iptv-org.github.io/iptv/index.m3u
 
@@ -15,21 +15,84 @@ A web-based TV channels player that fetches channels from the IPTV M3U playlist 
 - 🔍 Search channels by name
 - ▶️ Play channels directly in the browser
 - 🎨 Modern, responsive dark theme UI
+- ☁️ Deployed on Vercel
 
 ## Prerequisites
 
-- Java 17 or higher
-- Maven 3.6 or higher
 - Node.js 18 or higher
 - npm or yarn
 
+For local development with Java backend:
+- Java 17 or higher
+- Maven 3.6 or higher
 
 
+## Local Development
 
-The backend will start on `http://localhost:8080`
+### Option 1: Using Node.js Backend (Recommended for Vercel deployment)
 
+1. **Start the Node.js backend:**
+   ```bash
+   cd api
+   npm install
+   npm start
+   ```
+   The backend will start on `http://localhost:3001`
 
-The frontend will start on `http://localhost:3000`
+2. **Start the frontend:**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+   The frontend will start on `http://localhost:3000`
+
+3. **Configure API URL:**
+   Create a `.env` file in the `frontend` directory:
+   ```
+   VITE_API_URL=http://localhost:3001
+   ```
+
+### Option 2: Using Java Spring Boot Backend
+
+1. **Start the Java backend:**
+   ```bash
+   cd backend
+   mvn spring-boot:run
+   ```
+   The backend will start on `http://localhost:8080`
+
+2. **Start the frontend:**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+   The frontend will start on `http://localhost:3000`
+
+3. **Configure API URL:**
+   Create a `.env` file in the `frontend` directory:
+   ```
+   VITE_API_URL=http://localhost:8080
+   ```
+
+## Vercel Deployment
+
+The project is configured to deploy on Vercel with both frontend and backend:
+
+1. **Install Vercel CLI:**
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Deploy:**
+   ```bash
+   vercel
+   ```
+
+3. **Environment Variables:**
+   - No additional environment variables needed for Vercel deployment
+   - The frontend uses relative URLs when `VITE_API_URL` is empty
 
 ## Usage
 
