@@ -15,7 +15,7 @@ function ChannelList({ selectedCountry, onCountryChange, countries, onChannelSel
     try {
       const apiUrl = import.meta.env.VITE_API_URL || '';
       const url = selectedCountry
-        ? `${apiUrl}/api/channels/filter?country=${encodeURIComponent(selectedCountry)}&size=10000`
+        ? `${apiUrl}/api/filter?country=${encodeURIComponent(selectedCountry)}&size=10000`
         : `${apiUrl}/api/channels?size=10000`;
       const response = await fetch(url);
       if (!response.ok) {
