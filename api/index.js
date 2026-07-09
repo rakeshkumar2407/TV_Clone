@@ -3,8 +3,6 @@ const cors = require('cors');
 const axios = require('axios');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
-
 app.use(cors());
 app.use(express.json());
 
@@ -113,7 +111,7 @@ async function fetchChannels() {
 }
 
 // API Routes
-app.get('/api/channels', async (req, res) => {
+app.get('/channels', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 0;
     const size = parseInt(req.query.size) || 100;
@@ -128,7 +126,7 @@ app.get('/api/channels', async (req, res) => {
   }
 });
 
-app.get('/api/channels/countries', async (req, res) => {
+app.get('/channels/countries', async (req, res) => {
   try {
     const channels = await fetchChannels();
     const countries = [...new Set(channels.map(ch => ch.country))]
@@ -141,7 +139,7 @@ app.get('/api/channels/countries', async (req, res) => {
   }
 });
 
-app.get('/api/channels/filter', async (req, res) => {
+app.get('/channels/filter', async (req, res) => {
   try {
     const { country, category, page = 0, size = 100 } = req.query;
     
@@ -173,10 +171,5 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-// Export for Vercel
+// Export for Vercel serverless function
 module.exports = app;
