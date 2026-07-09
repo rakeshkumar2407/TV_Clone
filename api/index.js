@@ -110,8 +110,8 @@ async function fetchChannels() {
   }
 }
 
-// API Routes
-app.get('/api/channels', async (req, res) => {
+// API Routes - remove /api prefix since Vercel routes to /api automatically
+app.get('/channels', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 0;
     const size = parseInt(req.query.size) || 100;
@@ -126,7 +126,7 @@ app.get('/api/channels', async (req, res) => {
   }
 });
 
-app.get('/api/channels/countries', async (req, res) => {
+app.get('/channels/countries', async (req, res) => {
   try {
     const channels = await fetchChannels();
     const countries = [...new Set(channels.map(ch => ch.country))]
@@ -139,7 +139,7 @@ app.get('/api/channels/countries', async (req, res) => {
   }
 });
 
-app.get('/api/channels/filter', async (req, res) => {
+app.get('/channels/filter', async (req, res) => {
   try {
     const { country, category, page = 0, size = 100 } = req.query;
     
@@ -173,3 +173,11 @@ app.get('/health', (req, res) => {
 
 // Export for Vercel serverless function
 module.exports = app;
+
+// Vercel serverless function handler
+if (require.main === module) {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
