@@ -2,7 +2,33 @@
   "version": 2,
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/channels.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/countries.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/filter.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
   "routes": [
+    {
+      "src": "/api/channels(.*)",
+      "dest": "/api/channels.js"
+    },
+    {
+      "src": "/api/countries(.*)",
+      "dest": "/api/countries.js"
+    },
+    {
+      "src": "/api/filter(.*)",
+      "dest": "/api/filter.js"
+    },
     {
       "src": "/assets/.*",
       "headers": {
@@ -10,7 +36,7 @@
       }
     },
     {
-      "src": "/.*",
+      "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
