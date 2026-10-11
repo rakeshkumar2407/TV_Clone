@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ChannelList.css';
+import { getFullCountryName } from '../utils/countryMapping';
 
 function ChannelList({ selectedCountry, onCountryChange, countries, onChannelSelect, loadingCountries, selectedChannel, onPlayAll }) {
   const [channels, setChannels] = useState([]);
@@ -51,22 +52,6 @@ function ChannelList({ selectedCountry, onCountryChange, countries, onChannelSel
     return list;
   })();
 
-  const getFullCountryName = (country) => {
-    if (!country) return '';
-    // If country looks like 2-letter code, try Intl.DisplayNames
-    try {
-      if (typeof country === 'string' && country.length === 2) {
-        if (typeof Intl !== 'undefined' && Intl.DisplayNames) {
-          const dn = new Intl.DisplayNames(['en'], { type: 'region' });
-          return dn.of(country) || country;
-        }
-      }
-    } catch (e) {
-      // fall through
-    }
-    return country;
-  };
-
   return (
     <div className="channel-list">
       <div style={{display:'flex', gap:8, justifyContent:'flex-end', padding:'0 12px'}}>
@@ -114,14 +99,26 @@ function ChannelList({ selectedCountry, onCountryChange, countries, onChannelSel
               className={`channel-item ${selectedChannel && selectedChannel.url === channel.url ? 'selected' : ''}`}
               onClick={() => onChannelSelect(channel)}
             >
-              {channel.logo && (
+              {channel.logo ? (
                 <img
                   src={channel.logo}
                   alt={channel.name}
                   className="channel-logo"
-                  onError={(e) => e.target.style.display = 'none'}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling?.style.setProperty('display', 'flex');
+                  }}
                 />
-              )}
+              ) : null}
+              <div
+                className="channel-logo-fallback"
+                style={{ display: channel.logo ? 'none' : 'flex' }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                  <polyline points="17 2 12 7 7 2"></polyline>
+                </svg>
+              </div>
               <div className="channel-info">
                 <div className="channel-name">{channel.name}</div>
                 <div className="channel-meta">

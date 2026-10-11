@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Hls from 'hls.js';
 import './VideoPlayer.css';
+import { getFullCountryName } from '../utils/countryMapping';
 
 function VideoPlayer({ channel, onNext, onPrev, queueIndex, queueSize }) {
   const videoRef = useRef(null);
@@ -142,21 +143,6 @@ function VideoPlayer({ channel, onNext, onPrev, queueIndex, queueSize }) {
     }
   };
 
-  const getFullCountryName = (country) => {
-    if (!country) return '';
-    try {
-      if (typeof country === 'string' && country.length === 2) {
-        if (typeof Intl !== 'undefined' && Intl.DisplayNames) {
-          const dn = new Intl.DisplayNames(['en'], { type: 'region' });
-          return dn.of(country) || country;
-        }
-      }
-    } catch (e) {
-      // ignore
-    }
-    return country;
-  };
-
   if (!channel) {
     return (
       <div className="video-player-placeholder">
@@ -173,14 +159,26 @@ function VideoPlayer({ channel, onNext, onPrev, queueIndex, queueSize }) {
     <div className="video-player">
       <div className="player-header">
             <div className="channel-header-info">
-          {channel.logo && (
+          {channel.logo ? (
             <img
               src={channel.logo}
               alt={channel.name}
               className="header-logo"
-              onError={(e) => e.target.style.display = 'none'}
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextElementSibling?.style.setProperty('display', 'flex');
+              }}
             />
-          )}
+          ) : null}
+          <div
+            className="header-logo-fallback"
+            style={{ display: channel.logo ? 'none' : 'flex' }}
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+              <polyline points="17 2 12 7 7 2"></polyline>
+            </svg>
+          </div>
             <div>
             <h2 className="header-channel-name">{channel.name}</h2>
               <div className="header-channel-meta">

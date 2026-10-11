@@ -70,8 +70,24 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <button className="mobile-toggle" onClick={() => setSidebarOpen(v => !v)} aria-label="Toggle channels">☰</button>
-        <h1>📺 TV Channels Player</h1>
+        <button 
+          className="mobile-toggle" 
+          onClick={() => setSidebarOpen(v => !v)} 
+          aria-label="Toggle channels"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <h1>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+            <polyline points="17 2 12 7 7 2"></polyline>
+          </svg>
+          TV Channels Player
+        </h1>
       </header>
       <div className="app-content">
         <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
